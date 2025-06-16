@@ -54,10 +54,11 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#F9FAFB',
-        paddingHorizontal: 20,
-        paddingVertical: 24,
+
     },
     card: {
+        marginHorizontal: 20,
+        marginVertical: 24,
         backgroundColor: 'white',
         borderRadius: 16,
         padding: 20,
@@ -86,6 +87,6 @@ const styles = StyleSheet.create({
         fontWeight: '600',
     },
     statusSuccess: {
-        color: '#10B981',
+        color: '#1d8348',
     },
 });
