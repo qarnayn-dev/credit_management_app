@@ -2,7 +2,9 @@
 A simple app demonstrating a credit transfer module with biometric authentication.
 
 ## Sample Demo
-![App Demo](.src/assets/demo/credit_management_app_sample.gif)
+A quick preview of the Credit Management App in action:
+
+![Credit Management App](src/assets/demo/credit_management_app_sample.gif)
 
 
 ## APK Ready to download
