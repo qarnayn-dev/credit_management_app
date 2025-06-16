@@ -5,11 +5,12 @@ import {
     Text,
     View,
 } from 'react-native';
+import { themeStyles } from '../constants/theme';
 
 interface iStyledTextInput {
     value?: string,
     placeholder?: string,
-    onChanged?: (input: string) => void,
+    onChange?: (input: string) => void,
     isDigitOnly?: boolean,
     decimal?: number,
     error?: string,
@@ -34,7 +35,7 @@ const StyledTextInput = (props: iStyledTextInput) => {
     };
 
     useEffect(() => {
-        props?.onChanged?.(value);
+        props?.onChange?.(value);
         setShowError(false);
 
         return () => { }
@@ -57,7 +58,7 @@ const StyledTextInput = (props: iStyledTextInput) => {
                 placeholderTextColor="#999"
                 keyboardType={props.isDigitOnly ? 'numeric' : undefined}
             />
-            <Text style={styles.errorText}>{showError ? props.error : ''}</Text>
+            <Text style={themeStyles.errorText}>{showError ? props.error : ''}</Text>
         </View>
     );
 };
@@ -79,12 +80,6 @@ const styles = StyleSheet.create({
         height: 40,
         minHeight: 40,
     },
-    'errorText': {
-        fontSize: 12,
-        color: 'red',
-        height: 14,
-        paddingLeft: 2,
-    }
 });
 
 export default StyledTextInput;

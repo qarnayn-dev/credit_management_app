@@ -1,7 +1,6 @@
-import { ActivityIndicator, Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import StyledTextInput from '../../components/StyledTextInput'
-import { SafeAreaView } from 'react-native-safe-area-context'
 import { postCreditTransfer, PostCreditTransferPayload } from '../../services/creditTransferService'
 import { ApiResponse } from '../../types/ApiResponse'
 import { CreditTransferReceipt } from '../../types/CreditTransferReceipt'
@@ -11,9 +10,12 @@ import { RootStackParamList } from '../../routes/types'
 import { ValidationErrors } from '../../types/ValidationErrors'
 import { authoriseWithBiometric } from '../../services/biometricService'
 import { themeStyles } from '../../constants/theme'
+import { GapFillerVertical } from '../../components/GapFiller'
+import { toCurrency } from '../../utils/toCurrency'
 
 const CreditTransferScreen = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [showError, setShowError] = useState<boolean>(false);
     const [validationError, setValidationError] = useState<ValidationErrors | undefined>(undefined);
     const [transferPayload, setTransferPayload] = useState<PostCreditTransferPayload>({
         fromAccount: "",
@@ -25,6 +27,7 @@ const CreditTransferScreen = () => {
     const navigator = useNavigation<StackNavigationProp<RootStackParamList>>();
 
     const updatePayload = (input: { fromAccount?: string, toAccount?: string, amount?: number, note?: string }) => {
+        setShowError(false);
         setTransferPayload(
             {
                 fromAccount: input.fromAccount ?? transferPayload.fromAccount,
@@ -53,77 +56,69 @@ const CreditTransferScreen = () => {
             navigator.replace('ReceiptScreen', response.data!);
         } else if (response.status === 422) {
             setValidationError(response.errors);
+            setShowError(true);
         } else {
             Alert.prompt("Something went wrong :(", "Please wait a few minutes, and then try again");
         }
     }
 
     return (
-        <SafeAreaView>
-            <View style={themeStyles.body}>
-                <View style={styles.field}>
-                    <Text>Account to transfer</Text>
-                    <StyledTextInput
-                        placeholder='Transfer to'
-                        onChanged={(value) => updatePayload({ toAccount: value })}
-                        error={validationError?.['toAccount']?.[0]}
-                    />
-                </View>
-                <View style={styles.field}>
-                    <Text>Amount</Text>
-                    <View style={styles.row}>
-                        <Text style={styles.prefixBox}>RM</Text>
-                        <StyledTextInput
-                            direction='row'
-                            isDigitOnly={true}
-                            decimal={2}
-                            placeholder='Enter amount'
-                            onChanged={(value) => updatePayload({ amount: Number.parseFloat(value) })}
-                            error={validationError?.['amount']?.[0]}
-                        />
-                    </View>
-                </View>
-                <View style={styles.field}>
-                    <Text>Note</Text>
-                    <StyledTextInput
-                        placeholder='Note'
-                        onChanged={(value) => updatePayload({ note: value })}
-                    />
-                </View>
-                <TouchableOpacity
-                    style={{ ...styles.bottomButton, backgroundColor: isLoading ? "#D1D5DB" : styles.bottomButton.backgroundColor }}
-                    onPress={(!isLoading) ? submitRequest : undefined}
-                    disabled={isLoading}>
-                    <Text style={styles.buttonText}>Proceed</Text>
-                </TouchableOpacity>
-                {isLoading ? <ActivityIndicator size="large" color="#0EA5E9" /> : <View />}
+        <View style={themeStyles.body}>
+            <View style={styles.amountContainer}>
+                <Text style={themeStyles.label}>Amount (RM)</Text>
+                <TextInput
+                    style={styles.amountInput}
+                    placeholder='0.00'
+                    value={transferPayload.amount?.toFixed(2)}
+                    onChangeText={(value) => updatePayload({ amount: parseFloat(toCurrency(value)) })}
+                    placeholderTextColor="#999"
+                    keyboardType='numeric'
+                />
+                <Text style={{ ...themeStyles.errorText, textAlign: 'right' }}>{showError ? validationError?.['amount']?.[0] : ''}</Text>
             </View>
-        </SafeAreaView>
+            <GapFillerVertical value={8} />
+            <View>
+                <Text style={themeStyles.label}>Account to transfer</Text>
+                <StyledTextInput
+                    placeholder='Transfer to'
+                    onChange={(value) => updatePayload({ toAccount: value })}
+                    error={validationError?.['toAccount']?.[0]}
+                />
+            </View>
+            <GapFillerVertical value={8} />
+            <View>
+                <Text style={themeStyles.label}>Note</Text>
+                <StyledTextInput
+                    placeholder='Note'
+                    onChange={(value) => updatePayload({ note: value })}
+                />
+            </View>
+            <TouchableOpacity
+                style={{ ...styles.bottomButton, backgroundColor: isLoading ? "#D1D5DB" : styles.bottomButton.backgroundColor }}
+                onPress={(!isLoading) ? submitRequest : undefined}
+                disabled={isLoading}>
+                <Text style={styles.buttonText}>Proceed</Text>
+            </TouchableOpacity>
+            {isLoading ? <ActivityIndicator size="large" color="#0EA5E9" /> : <View />}
+        </View>
     )
 }
 
 export default CreditTransferScreen
 
 const styles = StyleSheet.create({
-    'field': {
-        paddingBottom: 16,
-    },
-    'row': {
+    row: {
         width: '100%',
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-    },
-    'prefixBox': {
-        paddingRight: 8,
-        paddingTop: 4,
     },
     bottomButton: {
         position: 'absolute',
         bottom: 20,
         left: 20,
         right: 20,
-        backgroundColor: '#0284C7',
+        backgroundColor: '#3498db',
         paddingVertical: 16,
         borderRadius: 12,
         alignItems: 'center',
@@ -138,4 +133,18 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         fontSize: 16,
     },
+    amountContainer: {
+        marginBottom: 16,
+    },
+    amountInput: {
+        borderRadius: 8,
+        marginTop: 4,
+        paddingHorizontal: 12,
+        paddingVertical: 8,
+        textAlign: 'right',
+        borderBottomColor: '#e5e7e9',
+        borderBottomWidth: 2,
+        fontSize: 40,
+        color: '#283747',
+    }
 })
