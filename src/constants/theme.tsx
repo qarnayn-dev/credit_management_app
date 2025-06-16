@@ -19,6 +19,6 @@ export const themeStyles = StyleSheet.create({
         color: 'red',
         height: 14,
         paddingLeft: 2,
-        paddingTop: 2,
+        paddingTop: 1,
     }
 });

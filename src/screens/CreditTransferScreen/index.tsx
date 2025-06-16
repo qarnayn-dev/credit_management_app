@@ -51,7 +51,8 @@ const CreditTransferScreen = () => {
         if (isAuthorised) {
             setIsLoading(true);
             setValidationError(undefined);
-            const response = await postCreditTransfer(transferPayload);
+            // Note: normally, the balance is provided from backend
+            const response = await postCreditTransfer(transferPayload, user?.balance ?? 0);
             onPostSubmission(response);
             setIsLoading(false);
         }

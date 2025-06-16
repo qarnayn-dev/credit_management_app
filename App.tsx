@@ -22,7 +22,7 @@ const RehydrationWrapper = () => {
   useEffect(() => {
     const hydrate = async () => {
       await dispatch(rehydrateUser());
-      dispatch(rehydrateTransactions());
+      await dispatch(rehydrateTransactions());
       setReady(true);
     };
     hydrate();

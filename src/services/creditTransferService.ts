@@ -9,10 +9,10 @@ export interface PostCreditTransferPayload {
     fromAccount: string,
     toAccount: string,
     amount: number,
-    note?: string;
+    note?: string,
 }
 
-export const postCreditTransfer = async (payload: PostCreditTransferPayload): Promise<ApiResponse<CreditTransferReceipt>> => {
+export const postCreditTransfer = async (payload: PostCreditTransferPayload, balance: number): Promise<ApiResponse<CreditTransferReceipt>> => {
     try {
         // TODO: use actual API
 
@@ -20,7 +20,6 @@ export const postCreditTransfer = async (payload: PostCreditTransferPayload): Pr
          * From here on, it is just to show how it works. 
          * Normally, every logic will be handled in the backend, calculations and all. 
         */
-        const user = useSelector((state: RootState) => state.userState.user);
         const randomNum = Math.ceil((Math.random() * 100));
         const timestamp = new Date();
         const isValidAccount = /^[0-9]*$/.test(payload.toAccount) && payload.toAccount.trim().length > 8;
@@ -38,7 +37,7 @@ export const postCreditTransfer = async (payload: PostCreditTransferPayload): Pr
                     amount: !isValidAmount ? ["Amount needs to be greater than zero"] : undefined,
                 },
             }
-        } else if ((user?.balance ?? 0) < payload.amount) {
+        } else if ((balance ?? 0) < payload.amount) {
             return {
                 status: 422,
                 message: "Insufficient balance",

@@ -13,3 +13,7 @@ export const loadTransactions = (state: TransactionState) => {
         state.transactions = transactions ?? [];
     })
 }
+
+export const updateTransactions = (state: TransactionState, action: PayloadAction<CreditTransferReceipt[]>) => {
+    state.transactions = action.payload;
+}
