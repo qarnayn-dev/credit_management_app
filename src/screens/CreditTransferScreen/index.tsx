@@ -9,6 +9,7 @@ import { useNavigation } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { RootStackParamList } from '../../routes/types'
 import { ValidationErrors } from '../../types/ValidationErrors'
+import { authoriseWithBiometric } from '../../services/biometricService'
 
 const CreditTransferScreen = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -35,11 +36,14 @@ const CreditTransferScreen = () => {
 
     /// A function to submit the request
     const submitRequest = async () => {
-        setIsLoading(true);
-        setValidationError(undefined);
-        const response = await postCreditTransfer(transferPayload);
-        onPostSubmission(response);
-        setIsLoading(false);
+        const isAuthorised = await authoriseWithBiometric();
+        if (isAuthorised) {
+            setIsLoading(true);
+            setValidationError(undefined);
+            const response = await postCreditTransfer(transferPayload);
+            onPostSubmission(response);
+            setIsLoading(false);
+        }
     }
 
     /// When the submission has completed. This function is to handle the error, navigation & all
