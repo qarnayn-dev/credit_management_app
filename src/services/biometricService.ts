@@ -1,3 +1,4 @@
+import { Alert } from 'react-native';
 import * as Keychain from 'react-native-keychain'
 
 const service = 'com.credit_management_app.biometric-key';
@@ -10,8 +11,13 @@ const baseOption = {
 /// return `true` if it has been authorised
 export const authoriseWithBiometric = async (): Promise<boolean> => {
     let isEnabled = await Keychain.hasGenericPassword(baseOption);
+    const isPasscodeAvailable = await Keychain.isPasscodeAuthAvailable();
+    const biometryTypes = await Keychain.getSupportedBiometryType();
 
-    if (isEnabled) {
+    if (biometryTypes == null && !isPasscodeAvailable) {
+        Alert.alert('Authentication is required', 'To use this feature, please enable device passcode or biometric authentication in your settings.',);
+        return false;
+    } else if (isEnabled) {
         const result = await Keychain.getGenericPassword({
             authenticationPrompt: {
                 title: 'Authenticate with biometric',
@@ -19,6 +25,7 @@ export const authoriseWithBiometric = async (): Promise<boolean> => {
             service: service,
         });
 
+        console.log(`getGenericPassword ->${JSON.stringify(result)}`);
         return result != false;
     } else {
         const isEnabled = await enableBiometryOrPinAuthorisation();
@@ -36,7 +43,7 @@ export const enableBiometryOrPinAuthorisation = async (): Promise<boolean> => {
         },
         service: service,
     });
-    console.log(JSON.stringify(result));
+    console.log(`setGenericPassword -> ${JSON.stringify(result)}`);
     return result != null;
 }
 
