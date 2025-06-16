@@ -2,20 +2,27 @@ import * as Keychain from 'react-native-keychain'
 
 const service = 'com.credit_management_app.biometric-key';
 
-/// To Authorize with biometric
-export const authoriseWithBiometric = async (): Promise<boolean> => {
-    const result = await Keychain.getGenericPassword({
-        authenticationPrompt: {
-            title: 'Authenticate with biometric',
-        },
-        service: service,
-    });
+const baseOption = {
+    service: service,
+};
 
-    if (!result) {
+/// To Authorize with biometric.
+/// return `true` if it has been authorised
+export const authoriseWithBiometric = async (): Promise<boolean> => {
+    let isEnabled = await Keychain.hasGenericPassword(baseOption);
+
+    if (isEnabled) {
+        const result = await Keychain.getGenericPassword({
+            authenticationPrompt: {
+                title: 'Authenticate with biometric',
+            },
+            service: service,
+        });
+
+        return result != false;
+    } else {
         const isEnabled = await enableBiometryOrPinAuthorisation();
         return isEnabled;
-    } else {
-        return true;
     }
 }
 
@@ -29,15 +36,13 @@ export const enableBiometryOrPinAuthorisation = async (): Promise<boolean> => {
         },
         service: service,
     });
-
+    console.log(JSON.stringify(result));
     return result != null;
 }
 
 /// A method to reset the generic password stored
-export const resetGenericPassword = async () => {
-    const res = await Keychain.resetGenericPassword(
-        {
-            service: service,
-        }
-    );
+export const resetGenericPassword = async (): Promise<boolean> => {
+    const result = await Keychain.resetGenericPassword(baseOption);
+    console.log(JSON.stringify(result));
+    return result != null;
 }
