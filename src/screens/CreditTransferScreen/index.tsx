@@ -12,17 +12,23 @@ import { authoriseWithBiometric } from '../../services/biometricService'
 import { themeStyles } from '../../constants/theme'
 import { GapFillerVertical } from '../../components/GapFiller'
 import { toCurrency } from '../../utils/toCurrency'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from '../../redux/store'
+import { sliceAction } from '../../redux/user/userSlice'
 
 const CreditTransferScreen = () => {
+    const user = useSelector((state: RootState) => state.userState.user);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [showError, setShowError] = useState<boolean>(false);
     const [validationError, setValidationError] = useState<ValidationErrors | undefined>(undefined);
     const [transferPayload, setTransferPayload] = useState<PostCreditTransferPayload>({
-        fromAccount: "",
-        toAccount: "",
+        fromAccount: user?.accountNumber ?? '',
+        toAccount: '',
         amount: 0,
-        note: "",
+        note: '',
     });
+
+    const dispatch = useDispatch();
 
     const navigator = useNavigation<StackNavigationProp<RootStackParamList>>();
 
@@ -53,6 +59,7 @@ const CreditTransferScreen = () => {
     /// When the submission has completed. This function is to handle the error, navigation & all
     const onPostSubmission = async (response: ApiResponse<CreditTransferReceipt>) => {
         if (response.status === 200 && response.data != null) {
+            dispatch(sliceAction.updateUserBalance(response.data.amount));
             navigator.replace('ReceiptScreen', response.data!);
         } else if (response.status === 422) {
             setValidationError(response.errors);

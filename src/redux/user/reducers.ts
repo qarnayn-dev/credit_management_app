@@ -1,9 +1,11 @@
+import { localKeys, saveToLocal } from '../../services/localStorage';
 import { User } from '../../types/User';
 import { UserState } from './types'
 import { PayloadAction } from '@reduxjs/toolkit';
 
 export const updateUser = (state: UserState, payload: PayloadAction<User>) => {
     state.user = payload.payload;
+    saveToLocal(localKeys.USER, state.user);
 }
 
 // Note: normally we don't use this approach i.e. update on the front-end
@@ -11,5 +13,6 @@ export const updateUser = (state: UserState, payload: PayloadAction<User>) => {
 export const updateUserBalance = (state: UserState, payload: PayloadAction<number>) => {
     if (state.user) {
         state.user.balance -= payload.payload;
+        saveToLocal(localKeys.USER, state.user);
     }
 }
