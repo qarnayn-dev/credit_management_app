@@ -3,6 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export const localKeys = {
     TOKEN: 'token',
     USER: 'user',
+    TRANSACTIONS: 'transactions',
 }
 
 export const saveToLocal = async <T>(key: string, item: T): Promise<void> => {

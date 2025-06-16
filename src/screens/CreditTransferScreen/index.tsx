@@ -14,7 +14,8 @@ import { GapFillerVertical } from '../../components/GapFiller'
 import { toCurrency } from '../../utils/toCurrency'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../redux/store'
-import { sliceAction } from '../../redux/user/userSlice'
+import { userAction } from '../../redux/user/userSlice'
+import { transactionAction } from '../../redux/transactions/transactionSlice'
 
 const CreditTransferScreen = () => {
     const user = useSelector((state: RootState) => state.userState.user);
@@ -59,7 +60,8 @@ const CreditTransferScreen = () => {
     /// When the submission has completed. This function is to handle the error, navigation & all
     const onPostSubmission = async (response: ApiResponse<CreditTransferReceipt>) => {
         if (response.status === 200 && response.data != null) {
-            dispatch(sliceAction.updateUserBalance(response.data.amount));
+            dispatch(userAction.updateUserBalance(response.data.amount));
+            dispatch(transactionAction.addTransaction(response.data));
             navigator.replace('ReceiptScreen', response.data!);
         } else if (response.status === 422) {
             setValidationError(response.errors);

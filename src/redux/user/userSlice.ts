@@ -27,8 +27,8 @@ export const rehydrateUser = createAsyncThunk('user/rehydrate', async (_, thunkA
         balance: 300,
         token: '',
     };
-    thunkApi.dispatch(sliceAction.updateUser(user));
+    thunkApi.dispatch(userAction.updateUser(user));
 })
 
-export const sliceAction = userSlice.actions;
+export const userAction = userSlice.actions;
 export default userSlice.reducer;

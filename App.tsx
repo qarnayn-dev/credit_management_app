@@ -13,6 +13,7 @@ import { store } from './src/redux/store';
 import { useAppDispatch } from './src/hooks/reduxHook';
 import { useEffect, useState } from 'react';
 import { rehydrateUser } from './src/redux/user/userSlice';
+import { rehydrateTransactions } from './src/redux/transactions/transactionSlice';
 
 const RehydrationWrapper = () => {
   const dispatch = useAppDispatch();
@@ -21,6 +22,7 @@ const RehydrationWrapper = () => {
   useEffect(() => {
     const hydrate = async () => {
       await dispatch(rehydrateUser());
+      dispatch(rehydrateTransactions());
       setReady(true);
     };
     hydrate();
