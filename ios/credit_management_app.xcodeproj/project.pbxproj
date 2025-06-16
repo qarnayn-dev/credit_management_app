@@ -24,6 +24,9 @@
 		5DCACB8F33CDC322A6C60F78 /* libPods-credit_management_app.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-credit_management_app.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		761780EC2CA45674006654EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = credit_management_app/AppDelegate.swift; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = credit_management_app/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		A134C58A2E00485C00641E47 /* FontAwesome6_Brands.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome6_Brands.ttf; sourceTree = "<group>"; };
+		A134C58B2E00485C00641E47 /* FontAwesome6_Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome6_Regular.ttf; sourceTree = "<group>"; };
+		A134C58C2E00485C00641E47 /* FontAwesome6_Solid.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome6_Solid.ttf; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -70,6 +73,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				A134C58D2E00485C00641E47 /* fonts */,
 				13B07FAE1A68108700A75B9A /* credit_management_app */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
@@ -87,6 +91,17 @@
 				13B07F961A680F5B00A75B9A /* credit_management_app.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		A134C58D2E00485C00641E47 /* fonts */ = {
+			isa = PBXGroup;
+			children = (
+				A134C58A2E00485C00641E47 /* FontAwesome6_Brands.ttf */,
+				A134C58B2E00485C00641E47 /* FontAwesome6_Regular.ttf */,
+				A134C58C2E00485C00641E47 /* FontAwesome6_Solid.ttf */,
+			);
+			name = fonts;
+			path = "../node_modules/@react-native-vector-icons/fontawesome6/fonts";
 			sourceTree = "<group>";
 		};
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {

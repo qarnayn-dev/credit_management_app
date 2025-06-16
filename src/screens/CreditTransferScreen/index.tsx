@@ -10,6 +10,7 @@ import { StackNavigationProp } from '@react-navigation/stack'
 import { RootStackParamList } from '../../routes/types'
 import { ValidationErrors } from '../../types/ValidationErrors'
 import { authoriseWithBiometric } from '../../services/biometricService'
+import { themeStyles } from '../../constants/theme'
 
 const CreditTransferScreen = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -59,7 +60,7 @@ const CreditTransferScreen = () => {
 
     return (
         <SafeAreaView>
-            <View style={styles.body}>
+            <View style={themeStyles.body}>
                 <View style={styles.field}>
                     <Text>Account to transfer</Text>
                     <StyledTextInput
@@ -104,11 +105,6 @@ const CreditTransferScreen = () => {
 export default CreditTransferScreen
 
 const styles = StyleSheet.create({
-    'body': {
-        paddingHorizontal: 20,
-        paddingVertical: 24,
-        height: '100%',
-    },
     'field': {
         paddingBottom: 16,
     },
