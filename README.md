@@ -7,10 +7,6 @@ A quick preview of the Credit Management App in action:
 ![Credit Management App](src/assets/demo/credit_management_app_sample.gif)
 
 
-## APK Ready to download
-Download it here -> https://github.com/qarnayn-dev/credit_management_app/releases/download/untagged-828a2c870f85cc51e3d0/credit-manangement-app-v0.1.0.apk
-
-
 # Getting Started
 
 > **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
