@@ -5,12 +5,20 @@ import StyledTextInput from '../../components/StyledTextInput'
 import { GapFillerVertical } from '../../components/GapFiller'
 import ThemedButton from '../../components/ThemedButton'
 import ThemedTextButton from '../../components/ThemedTextButton'
+import { useNavigation } from '@react-navigation/native'
+import { RootStackParamList } from '../../routes/types'
+import { StackNavigationProp } from '@react-navigation/stack'
 
 const LoginScreen = () => {
+    const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
     const logIn = async () => {
         // TODO: delete once done
         await new Promise((resolve) => setTimeout(resolve, 1000));
+    }
+
+    const navToSignUpPage = async () => {
+        navigation.navigate('SignUp');
     }
 
     return (
@@ -28,13 +36,15 @@ const LoginScreen = () => {
                     <StyledTextInput placeholder='e.g. support@qarnayn.dev' />
                     <GapFillerVertical value={8} />
                     <Text style={themeStyles.label}>Password</Text>
-                    <StyledTextInput />
+                    <StyledTextInput placeholder={`Your magic key 🔑`} />
                     <GapFillerVertical value={40} />
                     <ThemedButton title='Log In' onPress={logIn} position='relative' />
                     <GapFillerVertical value={24} />
                     <View style={styles.signUpSection}>
                         <Text style={themeStyles.secondaryText}>Or</Text>
-                        <ThemedTextButton text=' Sign Up ' />
+                        <ThemedTextButton
+                            text=' Sign Up '
+                            onPress={navToSignUpPage} />
                     </View>
                 </View>
             </View>
