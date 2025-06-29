@@ -3,7 +3,7 @@ import React from 'react';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { RootStackParamList } from '../../routes/types';
 
-type ReceiptScreenRouteProp = RouteProp<RootStackParamList, 'ReceiptScreen'>;
+type ReceiptScreenRouteProp = RouteProp<RootStackParamList, 'Receipt'>;
 
 const ReceiptScreen = () => {
     const route = useRoute<ReceiptScreenRouteProp>();

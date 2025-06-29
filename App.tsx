@@ -5,7 +5,7 @@
  * @format
  */
 
-import { useColorScheme } from 'react-native';
+import { ActivityIndicator, StyleSheet, useColorScheme, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import AppNavigator from './src/routes/AppNavigator';
 import { Provider } from 'react-redux';
@@ -28,7 +28,12 @@ const RehydrationWrapper = () => {
     hydrate();
   }, []);
 
-  return (ready) ? <AppNavigator /> : null;
+  return (ready) ?
+    <AppNavigator />
+    :
+    <View style={style.indicator}>
+      <ActivityIndicator size="large" />
+    </View>;
 };
 
 
@@ -45,3 +50,12 @@ function App() {
 }
 
 export default App;
+
+
+const style = StyleSheet.create({
+  'indicator': {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  }
+},);

@@ -1,17 +1,15 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import HomeScreen from '../screens/HomeScreen';
-import CreditTransferScreen from '../screens/CreditTransferScreen';
+import HomeScreen from '../screens/Home';
+import CreditTransferScreen from '../screens/CreditTransfer';
 import { RootStackParamList } from './types';
-import ReceiptScreen from '../screens/ReceiptScreen';
+import ReceiptScreen from '../screens/Receipt';
+import MainNavigator from './MainNavigator';
+import GuestNavigator from './GuestNavigator';
 
-const Stack = createNativeStackNavigator<RootStackParamList>();
+export const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const AppNavigator = () => (
-    <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="CreditTransfer" component={CreditTransferScreen} />
-        <Stack.Screen name="ReceiptScreen" component={ReceiptScreen} />
-    </Stack.Navigator>
+    <MainNavigator></MainNavigator>
 );
 
 export default AppNavigator

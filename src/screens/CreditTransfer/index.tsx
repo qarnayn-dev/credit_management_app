@@ -63,7 +63,7 @@ const CreditTransferScreen = () => {
         if (response.status === 200 && response.data != null) {
             dispatch(userAction.updateUserBalance(response.data.amount));
             dispatch(transactionAction.addTransaction(response.data));
-            navigator.replace('ReceiptScreen', response.data!);
+            navigator.replace('Receipt', response.data!);
         } else if (response.status === 422) {
             setValidationError(response.errors);
             setShowError(true);
