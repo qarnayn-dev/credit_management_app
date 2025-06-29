@@ -9,7 +9,8 @@ import GuestNavigator from './GuestNavigator';
 export const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const AppNavigator = () => (
-    <MainNavigator></MainNavigator>
+    // <MainNavigator></MainNavigator>
+    <GuestNavigator></GuestNavigator>
 );
 
 export default AppNavigator

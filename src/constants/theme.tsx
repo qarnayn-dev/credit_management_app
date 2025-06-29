@@ -20,5 +20,9 @@ export const themeStyles = StyleSheet.create({
         height: 14,
         paddingLeft: 2,
         paddingTop: 1,
-    }
+    },
+    secondaryText: {
+        fontSize: 14,
+        color: '#999',
+    },
 });
