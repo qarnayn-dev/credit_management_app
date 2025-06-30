@@ -24,13 +24,13 @@ export function apiError(error: AxiosError) {
   return Promise.reject(error);
 }
 
-export const standardResponse = async <T>(api: () => Promise<AxiosResponse>): Promise<ApiResponse<T>> => {
+export const standardResponse = async <T>(api: () => Promise<AxiosResponse>, transform?: (data: AxiosResponse<any, any>) => T): Promise<ApiResponse<T>> => {
   try {
     const response = await api();
     return {
       success: true,
       status: 200,
-      data: response.data,
+      data: transform?.(response) ?? response.data,
     };
   } catch (error) {
     let message = "Something went wrong!";
@@ -41,9 +41,10 @@ export const standardResponse = async <T>(api: () => Promise<AxiosResponse>): Pr
         success: false,
         status: statusCode,
         message: message,
+        errors: error?.response?.data.fieldErrors,
       };
     } else {
-      throw Error(message);
+      throw Promise.reject(message);
     }
   }
 }

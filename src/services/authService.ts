@@ -11,13 +11,13 @@ export interface LoginPayload {
 export interface SignUpPayload {
     email?: string,
     password?: string,
-    name?: string,
+    full_name?: string,
 }
 
-export const postlLoginAuth = async (payload: LoginPayload): Promise<ApiResponse<UserAuth>> => {
-    return await standardResponse(async () => api.post('functions/v1/login', payload));
+export const postLoginAuth = async (payload: LoginPayload): Promise<ApiResponse<UserAuth>> => {
+    return await standardResponse<UserAuth>(async () => api.post('functions/v1/login', payload));
 }
 
-export const postlSignUp = async (payload: SignUpPayload) => {
-    return await standardResponse(async () => api.post('functions/v1/sign-up', payload));
+export const postSignUp = async (payload: SignUpPayload): Promise<ApiResponse<UserAuth>> => {
+    return await standardResponse<UserAuth>(async () => api.post('functions/v1/sign-up', payload), (res) => res.data.session);
 }

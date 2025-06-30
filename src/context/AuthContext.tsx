@@ -1,17 +1,19 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
-import { loadFromLocal, localKeys, saveToLocal } from '../services/localStorage';
-import { LoginPayload, postlLoginAuth } from '../services/authService';
+import { deleteFromLocal, loadFromLocal, localKeys, saveToLocal } from '../services/localStorage';
+import { LoginPayload, postLoginAuth, postSignUp, SignUpPayload } from '../services/authService';
 import { UserCredentials } from 'react-native-keychain';
 import Toast from 'react-native-toast-message';
 import { ApiResponse } from '../types/ApiResponse';
 import { UserAuth } from '../types/UserAuth';
+import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { resolver } from '../../metro.config';
 
 interface AuthContextType {
     sessionToken?: string,
     refreshToken?: string,
     user?: UserCredentials,
     logIn: (payload: LoginPayload) => Promise<ApiResponse<UserAuth>>,
-    signUp: () => Promise<void>,
+    signUp: (payload: SignUpPayload) => Promise<ApiResponse<UserAuth>>,
     signOut: () => Promise<void>,
     refresh: () => Promise<void>,
 }
@@ -22,17 +24,17 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [sessionToken, setSessionToken] = useState<string>();
     const [refreshToken, setRefreshToken] = useState<string>();
     const [user, setUser] = useState<UserCredentials>();
-    const [error, setError] = useState<string>();
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const logIn = async (payload: LoginPayload): Promise<ApiResponse<UserAuth>> => {
+        setIsLoading(true);
         try {
-            const res = await postlLoginAuth(payload);
+            const res = await postLoginAuth(payload);
+            setIsLoading(false);
             if (res.success) {
                 setSessionToken(res.data?.access_token);
                 setRefreshToken(res.data?.refresh_token);
                 setUser(res.data?.user as UserCredentials | undefined);
-            } else if (res.message) {
-                setError(res.message);
             }
             return res;
         } catch (error) {
@@ -40,8 +42,20 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         }
     }
 
-    const signUp = async () => {
-        // 
+    const signUp = async (payload: SignUpPayload): Promise<ApiResponse<UserAuth>> => {
+        setIsLoading(true);
+        try {
+            const res = await postSignUp(payload);
+            setIsLoading(false);
+            if (res.success) {
+                setSessionToken(res.data?.access_token);
+                setRefreshToken(res.data?.refresh_token);
+                setUser(res.data?.user as UserCredentials | undefined);
+            }
+            return res;
+        } catch (error) {
+            throw Promise.reject(error);
+        }
     }
 
     const signOut = async () => {
@@ -73,22 +87,26 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }, []);
 
     useEffect(() => {
-        saveToLocal<string | undefined>(localKeys.ACCESS_TOKEN, sessionToken);
+        if (sessionToken)
+            saveToLocal<string | undefined>(localKeys.ACCESS_TOKEN, sessionToken);
+        else
+            deleteFromLocal(localKeys.ACCESS_TOKEN);
     }, [sessionToken]);
 
     useEffect(() => {
-        saveToLocal<string | undefined>(localKeys.REFRESH_TOKEN, refreshToken);
+        if (refreshToken)
+            saveToLocal<string | undefined>(localKeys.REFRESH_TOKEN, refreshToken);
+        else
+            deleteFromLocal(localKeys.REFRESH_TOKEN);
+
     }, [refreshToken]);
 
     useEffect(() => {
-        saveToLocal<UserCredentials | undefined>(localKeys.USER_CREDENTIALS, user);
+        if (user)
+            saveToLocal<UserCredentials | undefined>(localKeys.USER_CREDENTIALS, user);
+        else
+            deleteFromLocal(localKeys.USER_CREDENTIALS);
     }, [user]);
-
-    useEffect(() => {
-        if ((error?.length ?? 0) > 0 && error) {
-            Toast.show({ type: 'error', position: 'bottom', text1: error });
-        }
-    }, [error]);
 
     return (
         <AuthContext.Provider value={{
@@ -99,9 +117,19 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             signUp,
             signOut,
             refresh
-        }}>{children}
+        }}>
+            {children}
+            {isLoading &&
+                (<View style={{
+                    ...StyleSheet.absoluteFillObject,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    zIndex: 10,
+                }}>
+                    <ActivityIndicator size="large" color="#0EA5E9" />
+                </View>)}
         </AuthContext.Provider>
-    )
+    );
 }
 
 export default AuthProvider;

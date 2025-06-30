@@ -17,10 +17,7 @@ const LoginScreen = () => {
     const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
     const authContext = useAuth();
     const [error, setError] = useState<string | null>();
-    const [loginPayload, setLoginPayoload] = useState<LoginPayload>({
-        email: '',
-        password: '',
-    })
+    const [loginPayload, setLoginPayoload] = useState<LoginPayload>({});
 
 
     const updatePayload = (input: { email?: string, password?: string }) => {
