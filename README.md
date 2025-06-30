@@ -11,11 +11,14 @@ https://github.com/qarnayn-dev/credit_management_app/releases/download/v0.0.1-al
 ## Sample Demo
 A quick preview of the Credit Management App in action:
 <br/>
-A demo of Login and signup feature!
-![Credit Management App](<img src="src/assets/demo/credit_management_app_login.gif" width="390" />)
+
+A demo of Login and signup feature!  
+<img src="src/assets/demo/credit_management_app_login.gif" width="390" />
+
 <br/>
-Transfer Credit with biometric authentication!
-![Credit Management App](<img src="src/assets/demo/credit_management_app_sample.gif" width="390" />)
+
+Transfer Credit with biometric authentication!  
+<img src="src/assets/demo/credit_management_app_sample.gif" width="390" />
 
 
 # Getting Started (require technical knowledge)
