@@ -42,6 +42,11 @@ const StyledTextInput = (props: iStyledTextInput) => {
     }, [value])
 
     useEffect(() => {
+        setValue(props.value ?? '');
+        return () => { }
+    }, [props.value])
+
+    useEffect(() => {
         if (props.error) setShowError(true);
         else setShowError(false);
         return () => { }
