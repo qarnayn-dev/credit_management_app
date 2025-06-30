@@ -43,7 +43,7 @@ const HomeScreen = () => {
             <TouchableOpacity
                 style={styles.bottomButton}
                 onPress={naviToCreditTransfer}>
-                <MaterialIcons name="add-to-home-screen" size={30} color="#fdfefe" />
+                <MaterialIcons name="add" size={30} color="#fdfefe" />
             </TouchableOpacity>
         </View>
     )
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
         width: 60,
         bottom: 40,
         left: 20,
-        backgroundColor: '#d6eaf8',
+        backgroundColor: '#3498db',
         paddingVertical: 16,
         borderRadius: 12,
         alignItems: 'center',

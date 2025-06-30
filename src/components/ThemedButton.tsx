@@ -35,7 +35,6 @@ const ThemedButton = (props: iThemedButton) => {
             disabled={isLoading}>
             <Text style={styles.text}>{props.title ?? 'Confirm'}</Text>
         </TouchableOpacity>
-        // { isLoading ? <ActivityIndicator size="large" color="#0EA5E9" /> : <View /> }
     )
 }
 
