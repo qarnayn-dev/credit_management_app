@@ -45,6 +45,9 @@ With Metro running, open a new terminal window/pane from the root of your React 
 # Using npm
 npm run android
 
+# Using npx (if script not set up)
+npx react-native run-android
+
 # OR using Yarn
 yarn android
 ```
@@ -53,9 +56,15 @@ yarn android
 
 For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
 
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
+The first time you create a new project, run the `pod install` command inside of ios directory or run Ruby bundler to install CocoaPods itself:
 
 ```sh
+cd ios
+pod install
+```
+
+```sh
+# if using bundle
 bundle install
 ```
 
@@ -70,6 +79,9 @@ For more information, please visit [CocoaPods Getting Started guide](https://gui
 ```sh
 # Using npm
 npm run ios
+
+# Using npx (if script not set up)
+npx react-native run-ios
 
 # OR using Yarn
 yarn ios
