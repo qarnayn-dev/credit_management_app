@@ -46,7 +46,7 @@ const SignUpScreen = () => {
                     <Text style={themeStyles.label}>Email</Text>
                     <StyledTextInput
                         value={signUpPayload.email}
-                        placeholder='e.g. support@qarnayn.dev'
+                        placeholder='e.g. zuszend@gmail.com'
                         onChange={(value) => updatePayload({ email: value })}
                         error={errors?.['email']?.[0]}
                     />

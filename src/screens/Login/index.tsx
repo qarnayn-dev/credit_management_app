@@ -1,5 +1,5 @@
 import { ImageBackground, StyleSheet, Text, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { themeStyles } from '../../constants/theme'
 import StyledTextInput from '../../components/StyledTextInput'
 import { GapFillerVertical } from '../../components/GapFiller'
@@ -59,7 +59,7 @@ const LoginScreen = () => {
                     <Text style={themeStyles.label}>Email</Text>
                     <StyledTextInput
                         value={loginPayload.email}
-                        placeholder='e.g. support@qarnayn.dev'
+                        placeholder='e.g. zuszend@gmail.com'
                         onChange={(value) => updatePayload({ email: value })} />
                     <GapFillerVertical value={8} />
                     <Text style={themeStyles.label}>Password</Text>
