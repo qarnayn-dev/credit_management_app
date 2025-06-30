@@ -1,8 +1,27 @@
 ## About
 A simple app demonstrating a credit transfer module with biometric authentication.
 <br/>
+
 > ⚠️ **Note:** The `.env` file is not included in this repo. Please email me to get a copy.
 <br/>
+
+### ✅ TODO Features
+- [x] Sign Up Page
+- [x] Login Page
+- [x] Sign Out Feature (Home Page - top right)
+- [x] Authentication API integration
+- [x] Home Page
+- [x] Credit Transfer Page
+- [x] Receipt Page
+- [x] Biometric Authentication
+- [x] Transaction History Page
+- [x] Quick Send feature
+- [] Profile API integration
+- [] Credit Transfer API integration
+- [] Transaction History API integration
+- [] Obsecure password toggle
+- [] Push notification integration
+
 
 ## APK for easy demo
 No setup needed, just download here:
