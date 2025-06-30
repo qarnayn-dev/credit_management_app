@@ -1,5 +1,5 @@
 import { ImageBackground, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { themeStyles } from '../../constants/theme'
 import StyledTextInput from '../../components/StyledTextInput'
 import { GapFillerVertical } from '../../components/GapFiller'
@@ -8,18 +8,50 @@ import ThemedTextButton from '../../components/ThemedTextButton'
 import { useNavigation } from '@react-navigation/native'
 import { RootStackParamList } from '../../routes/types'
 import { StackNavigationProp } from '@react-navigation/stack'
+import { LoginPayload } from '../../services/authService'
+import Toast from 'react-native-toast-message'
+import { useAuth } from '../../hooks/useAuth'
+
 
 const LoginScreen = () => {
     const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+    const authContext = useAuth();
+    const [error, setError] = useState<string | null>();
+    const [loginPayload, setLoginPayoload] = useState<LoginPayload>({
+        email: '',
+        password: '',
+    })
 
-    const logIn = async () => {
-        // TODO: delete once done
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    const updatePayload = (input: { email?: string, password?: string }) => {
+        setLoginPayoload({
+            email: input.email ?? loginPayload.email,
+            password: input.password ?? loginPayload.password,
+        })
+        if (error) setError(null); // reset
+    }
+
+    const submitLogin = async () => {
+        if (authContext?.logIn) {
+            const res = await authContext?.logIn(loginPayload);
+            if (!res.success) {
+                setError(res.message);
+            } else {
+                setError(null);
+            }
+        }
     }
 
     const navToSignUpPage = async () => {
         navigation.navigate('SignUp');
     }
+
+    useEffect(() => {
+        if ((error?.length ?? 0) > 0 && error) {
+            Toast.show({ type: 'error', position: 'bottom', text1: error });
+            updatePayload({ password: '' });
+        }
+    }, [error]);
 
     return (
         <ImageBackground
@@ -33,12 +65,18 @@ const LoginScreen = () => {
                     }}>Good to see you again 👋🏼</Text>
                     <GapFillerVertical value={32} />
                     <Text style={themeStyles.label}>Email</Text>
-                    <StyledTextInput placeholder='e.g. support@qarnayn.dev' />
+                    <StyledTextInput
+                        value={loginPayload.email}
+                        placeholder='e.g. support@qarnayn.dev'
+                        onChange={(value) => updatePayload({ email: value })} />
                     <GapFillerVertical value={8} />
                     <Text style={themeStyles.label}>Password</Text>
-                    <StyledTextInput placeholder={`Your magic key 🔑`} />
+                    <StyledTextInput
+                        value={loginPayload.password}
+                        placeholder={`Your magic key 🔑`}
+                        onChange={(value) => updatePayload({ password: value })} />
                     <GapFillerVertical value={40} />
-                    <ThemedButton title='Log In' onPress={logIn} position='relative' />
+                    <ThemedButton title='Log In' onPress={submitLogin} position='relative' />
                     <GapFillerVertical value={24} />
                     <View style={styles.signUpSection}>
                         <Text style={themeStyles.secondaryText}>Or</Text>

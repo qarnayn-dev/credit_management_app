@@ -23,6 +23,7 @@ const HomeScreen = () => {
 
     return (
         <View style={themeStyles.body}>
+            <GapFillerVertical value={4} />
             <UserProfileCard />
             <GapFillerVertical value={40} />{
                 (transactions.length > 0) ?

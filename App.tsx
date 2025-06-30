@@ -14,6 +14,8 @@ import { useAppDispatch } from './src/hooks/reduxHook';
 import { useEffect, useState } from 'react';
 import { rehydrateUser } from './src/redux/user/userSlice';
 import { rehydrateTransactions } from './src/redux/transactions/transactionSlice';
+import Toast from 'react-native-toast-message';
+import AuthProvider from './src/context/AuthContext';
 
 const RehydrationWrapper = () => {
   const dispatch = useAppDispatch();
@@ -42,10 +44,13 @@ function App() {
 
   return (
     <Provider store={store}>
-      <NavigationContainer>
-        <RehydrationWrapper />
-      </NavigationContainer>
-    </Provider>
+      <AuthProvider>
+        <NavigationContainer>
+          <RehydrationWrapper />
+        </NavigationContainer>
+      </AuthProvider>
+      <Toast />
+    </Provider >
   );
 }
 

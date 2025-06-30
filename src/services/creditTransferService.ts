@@ -2,8 +2,6 @@ import { AxiosError } from "axios";
 import { CreditTransferReceipt } from "../types/CreditTransferReceipt";
 import { promiseDelayed } from "../utils/promiseDelayed"
 import { ApiResponse } from "../types/ApiResponse";
-import { useSelector } from "react-redux";
-import { RootState } from "../redux/store";
 
 export interface PostCreditTransferPayload {
     fromAccount: string,
@@ -30,6 +28,7 @@ export const postCreditTransfer = async (payload: PostCreditTransferPayload, bal
         // TODO: Emulate an unsuccessful response
         if (!isValidAccount || !isValidAmount) {
             return {
+                success: false,
                 status: 422,
                 message: "Some field are invalid.",
                 errors: {
@@ -39,6 +38,7 @@ export const postCreditTransfer = async (payload: PostCreditTransferPayload, bal
             }
         } else if ((balance ?? 0) < payload.amount) {
             return {
+                success: false,
                 status: 422,
                 message: "Insufficient balance",
                 errors: {
@@ -49,6 +49,7 @@ export const postCreditTransfer = async (payload: PostCreditTransferPayload, bal
         // TODO: Emulate a successful response
         else if (randomNum > 10) {
             return {
+                success: true,
                 status: 200,
                 data: {
                     transactionId: `TX${payload.toAccount}${randomNum}`,
@@ -62,6 +63,7 @@ export const postCreditTransfer = async (payload: PostCreditTransferPayload, bal
         }
         else {
             return {
+                success: false,
                 status: 500,
                 message: "Something went wrong on our end. Please try again later."
             }
