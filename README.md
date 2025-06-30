@@ -1,5 +1,8 @@
 ## About
 A simple app demonstrating a credit transfer module with biometric authentication.
+<br/>
+> ⚠️ **Note:** The `.env` file is not included in this repo. Please email me to get a copy.
+<br/>
 
 ## APK for easy demo
 No setup needed, just download here:
@@ -7,8 +10,12 @@ https://github.com/qarnayn-dev/credit_management_app/releases/download/v0.0.1-al
 
 ## Sample Demo
 A quick preview of the Credit Management App in action:
-
-![Credit Management App](src/assets/demo/credit_management_app_sample.gif)
+<br/>
+A demo of Login and signup feature!
+![Credit Management App](<img src="src/assets/demo/credit_management_app_login.gif" width="390" />)
+<br/>
+Transfer Credit with biometric authentication!
+![Credit Management App](<img src="src/assets/demo/credit_management_app_sample.gif" width="390" />)
 
 
 # Getting Started (require technical knowledge)
