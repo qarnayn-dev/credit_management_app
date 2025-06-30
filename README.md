@@ -1,5 +1,27 @@
 ## About
 A simple app demonstrating a credit transfer module with biometric authentication.
+<br/>
+
+> ⚠️ **Note:** The `.env` file is not included in this repo. Please email me to get a copy.
+<br/>
+
+### ✅ TODO Features
+- [x] Sign Up Page
+- [x] Login Page
+- [x] Sign Out Feature (Home Page - top right)
+- [x] Authentication API integration
+- [x] Home Page
+- [x] Credit Transfer Page
+- [x] Receipt Page
+- [x] Biometric Authentication
+- [x] Transaction History Page
+- [x] Quick Send feature
+- [ ] Profile API integration
+- [ ] Credit Transfer API integration
+- [ ] Transaction History API integration
+- [ ] Obsecure password toggle
+- [ ] Push notification integration
+
 
 ## APK for easy demo
 No setup needed, just download here:
@@ -7,8 +29,15 @@ https://github.com/qarnayn-dev/credit_management_app/releases/download/v0.0.1-al
 
 ## Sample Demo
 A quick preview of the Credit Management App in action:
+<br/>
 
-![Credit Management App](src/assets/demo/credit_management_app_sample.gif)
+A demo of Login and signup feature!  
+<img src="src/assets/demo/credit_management_app_login.gif" width="390" />
+
+<br/>
+
+Transfer Credit with biometric authentication!  
+<img src="src/assets/demo/credit_management_app_sample.gif" width="390" />
 
 
 # Getting Started (require technical knowledge)
@@ -38,6 +67,9 @@ With Metro running, open a new terminal window/pane from the root of your React 
 # Using npm
 npm run android
 
+# Using npx (if script not set up)
+npx react-native run-android
+
 # OR using Yarn
 yarn android
 ```
@@ -46,9 +78,15 @@ yarn android
 
 For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
 
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
+The first time you create a new project, run the `pod install` command inside of ios directory or run Ruby bundler to install CocoaPods itself:
 
 ```sh
+cd ios
+pod install
+```
+
+```sh
+# if using bundle
 bundle install
 ```
 
@@ -63,6 +101,9 @@ For more information, please visit [CocoaPods Getting Started guide](https://gui
 ```sh
 # Using npm
 npm run ios
+
+# Using npx (if script not set up)
+npx react-native run-ios
 
 # OR using Yarn
 yarn ios

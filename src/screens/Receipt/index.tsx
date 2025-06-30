@@ -1,13 +1,24 @@
 import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
 import React from 'react';
-import { RouteProp, useRoute } from '@react-navigation/native';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { RootStackParamList } from '../../routes/types';
+import ThemedButton from '../../components/ThemedButton';
+import { StackNavigationProp } from '@react-navigation/stack';
 
-type ReceiptScreenRouteProp = RouteProp<RootStackParamList, 'ReceiptScreen'>;
+type ReceiptScreenRouteProp = RouteProp<RootStackParamList, 'Receipt'>;
 
 const ReceiptScreen = () => {
     const route = useRoute<ReceiptScreenRouteProp>();
+    const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
     const { transactionId, status, amount, fromAccount, toAccount, timestamp } = route.params;
+
+    const navToNewTransfer = () => {
+        navigation.replace('CreditTransfer', {
+            fromAccount: fromAccount,
+            toAccount: toAccount,
+            amount: 0,
+        });
+    }
 
     return (
         <SafeAreaView style={styles.container}>
@@ -44,6 +55,14 @@ const ReceiptScreen = () => {
                     <Text style={styles.value}>{new Date(timestamp).toLocaleString()}</Text>
                 </View>
             </View>
+            <View style={{ flex: 1 }} />
+            <View style={styles.bottomButtonContainer}>
+                <ThemedButton
+                    position='relative'
+                    title='Make New Transfer'
+                    onPress={async () => { navToNewTransfer() }}
+                />
+            </View>
         </SafeAreaView>
     );
 };
@@ -54,7 +73,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#F9FAFB',
-
+        flexDirection: 'column',
     },
     card: {
         marginHorizontal: 20,
@@ -89,4 +108,7 @@ const styles = StyleSheet.create({
     statusSuccess: {
         color: '#1d8348',
     },
+    bottomButtonContainer: {
+        paddingHorizontal: 20,
+    }
 });

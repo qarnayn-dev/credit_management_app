@@ -1,25 +1,27 @@
 import axios from "axios";
 import { apiError, apiResponse } from "./apiResponseHandler";
+import { API_URL, API_TOKEN } from '@env'
+import { loadFromLocal, localKeys } from "./localStorage";
 
 const api = axios.create({
-    baseURL: "", // TODO: update later when API is ready
-    timeout: 30000,
-    headers: {
-        'Content-Type': 'application/json',
-      },
+  baseURL: API_URL,
+  timeout: 30000,
+  headers: {
+    'Content-Type': 'application/json',
+    'apikey': API_TOKEN,
+    'Authorization': `Bearer ${API_TOKEN}`,
+  },
 });
 
-api.interceptors.request.use((config) => {
-    const token = ""; // TODO: add bearer token from AsyncStorage
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  });
+api.interceptors.request.use(async (config) => {
+  const token = await loadFromLocal<string | undefined>(localKeys.ACCESS_TOKEN);
+  config.headers.Authorization = `Bearer ${(token) ? token : API_TOKEN}`;
+  return config;
+});
 
 api.interceptors.response.use(
   apiResponse,
   apiError,
 );
-  
+
 export default api;

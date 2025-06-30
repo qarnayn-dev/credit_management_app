@@ -4,6 +4,9 @@ export const localKeys = {
     TOKEN: 'token',
     USER: 'user',
     TRANSACTIONS: 'transactions',
+    ACCESS_TOKEN: 'access_token',
+    REFRESH_TOKEN: 'refresh_token',
+    USER_CREDENTIALS: 'user_credentials',
 }
 
 export const saveToLocal = async <T>(key: string, item: T): Promise<void> => {

@@ -4,7 +4,7 @@ import StyledTextInput from '../../components/StyledTextInput'
 import { postCreditTransfer, PostCreditTransferPayload } from '../../services/creditTransferService'
 import { ApiResponse } from '../../types/ApiResponse'
 import { CreditTransferReceipt } from '../../types/CreditTransferReceipt'
-import { useNavigation } from '@react-navigation/native'
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { RootStackParamList } from '../../routes/types'
 import { ValidationErrors } from '../../types/ValidationErrors'
@@ -17,16 +17,20 @@ import { RootState } from '../../redux/store'
 import { userAction } from '../../redux/user/userSlice'
 import { transactionAction } from '../../redux/transactions/transactionSlice'
 
+type CreditTransferScreenRouteProp = RouteProp<RootStackParamList, 'CreditTransfer'>;
+
 const CreditTransferScreen = () => {
+    const route = useRoute<CreditTransferScreenRouteProp>();
+    const { fromAccount, toAccount, amount, note } = route.params ?? {};
     const user = useSelector((state: RootState) => state.userState.user);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [showError, setShowError] = useState<boolean>(false);
     const [validationError, setValidationError] = useState<ValidationErrors | undefined>(undefined);
     const [transferPayload, setTransferPayload] = useState<PostCreditTransferPayload>({
-        fromAccount: user?.accountNumber ?? '',
-        toAccount: '',
-        amount: 0,
-        note: '',
+        fromAccount: fromAccount ?? user?.accountNumber ?? '',
+        toAccount: toAccount ?? '',
+        amount: amount ?? 0,
+        note: note ?? '',
     });
 
     const dispatch = useDispatch();
@@ -63,7 +67,7 @@ const CreditTransferScreen = () => {
         if (response.status === 200 && response.data != null) {
             dispatch(userAction.updateUserBalance(response.data.amount));
             dispatch(transactionAction.addTransaction(response.data));
-            navigator.replace('ReceiptScreen', response.data!);
+            navigator.replace('Receipt', response.data!);
         } else if (response.status === 422) {
             setValidationError(response.errors);
             setShowError(true);
@@ -91,6 +95,7 @@ const CreditTransferScreen = () => {
                 <Text style={themeStyles.label}>Account to transfer</Text>
                 <StyledTextInput
                     placeholder='Transfer to'
+                    value={transferPayload.toAccount}
                     onChange={(value) => updatePayload({ toAccount: value })}
                     error={validationError?.['toAccount']?.[0]}
                 />
@@ -100,6 +105,7 @@ const CreditTransferScreen = () => {
                 <Text style={themeStyles.label}>Note</Text>
                 <StyledTextInput
                     placeholder='Note'
+                    value={transferPayload.note}
                     onChange={(value) => updatePayload({ note: value })}
                 />
             </View>

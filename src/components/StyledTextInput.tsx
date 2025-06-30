@@ -19,7 +19,7 @@ interface iStyledTextInput {
 
 const StyledTextInput = (props: iStyledTextInput) => {
     const [value, setValue] = useState<string>('');
-    const [showError, setShowError] = useState<boolean>(true);
+    const [showError, setShowError] = useState<boolean>(false);
 
     const handleChange = (text: string) => {
         let digitsOnly = text.replace(/[^0-9\.]/g, '');
@@ -42,8 +42,13 @@ const StyledTextInput = (props: iStyledTextInput) => {
     }, [value])
 
     useEffect(() => {
-        setShowError(true);
+        setValue(props.value ?? '');
+        return () => { }
+    }, [props.value])
 
+    useEffect(() => {
+        if (props.error) setShowError(true);
+        else setShowError(false);
         return () => { }
     }, [props.error])
 
@@ -51,7 +56,7 @@ const StyledTextInput = (props: iStyledTextInput) => {
     return (
         <View style={{ ...styles.container, flex: (props.direction === 'row') ? 1 : undefined }}>
             <TextInput
-                style={styles.input}
+                style={{ ...styles.input, borderColor: (showError) ? 'red' : styles.input.borderColor }}
                 placeholder={props.placeholder}
                 value={value}
                 onChangeText={handleChange}

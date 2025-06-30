@@ -5,7 +5,7 @@
  * @format
  */
 
-import { useColorScheme } from 'react-native';
+import { ActivityIndicator, StyleSheet, useColorScheme, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import AppNavigator from './src/routes/AppNavigator';
 import { Provider } from 'react-redux';
@@ -14,6 +14,8 @@ import { useAppDispatch } from './src/hooks/reduxHook';
 import { useEffect, useState } from 'react';
 import { rehydrateUser } from './src/redux/user/userSlice';
 import { rehydrateTransactions } from './src/redux/transactions/transactionSlice';
+import Toast from 'react-native-toast-message';
+import AuthProvider from './src/context/AuthContext';
 
 const RehydrationWrapper = () => {
   const dispatch = useAppDispatch();
@@ -28,7 +30,12 @@ const RehydrationWrapper = () => {
     hydrate();
   }, []);
 
-  return (ready) ? <AppNavigator /> : null;
+  return (ready) ?
+    <AppNavigator />
+    :
+    <View style={style.indicator}>
+      <ActivityIndicator size="large" />
+    </View>;
 };
 
 
@@ -37,11 +44,23 @@ function App() {
 
   return (
     <Provider store={store}>
-      <NavigationContainer>
-        <RehydrationWrapper />
-      </NavigationContainer>
-    </Provider>
+      <AuthProvider>
+        <NavigationContainer>
+          <RehydrationWrapper />
+        </NavigationContainer>
+      </AuthProvider>
+      <Toast />
+    </Provider >
   );
 }
 
 export default App;
+
+
+const style = StyleSheet.create({
+  'indicator': {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  }
+},);
