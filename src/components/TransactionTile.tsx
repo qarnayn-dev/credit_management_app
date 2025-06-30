@@ -13,7 +13,7 @@ const TransactionTile = (props: TransactionTileProps) => {
     const navigator = useNavigation<StackNavigationProp<RootStackParamList>>();
 
     const naviToReceiptScreen = () => {
-        navigator.navigate('ReceiptScreen', props.item);
+        navigator.navigate('Receipt', props.item);
     }
 
     return (
