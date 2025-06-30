@@ -66,7 +66,6 @@ const SignUpScreen = () => {
                         onChange={(value) => updatePayload({ full_name: value })}
                         error={errors?.['full_name']?.[0]}
                     />
-                    <GapFillerVertical value={8} />
                     <GapFillerVertical value={40} />
                     <ThemedButton title='Sign Up' onPress={signUp} position='relative' />
                     <GapFillerVertical value={4} />

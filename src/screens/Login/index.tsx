@@ -11,12 +11,13 @@ import { StackNavigationProp } from '@react-navigation/stack'
 import { LoginPayload } from '../../services/authService'
 import Toast from 'react-native-toast-message'
 import { useAuth } from '../../hooks/useAuth'
+import { ValidationErrors } from '../../types/ValidationErrors'
 
 
 const LoginScreen = () => {
     const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
     const authContext = useAuth();
-    const [error, setError] = useState<string | null>();
+    const [errors, setErrors] = useState<ValidationErrors>();
     const [loginPayload, setLoginPayoload] = useState<LoginPayload>({});
 
 
@@ -24,31 +25,25 @@ const LoginScreen = () => {
         setLoginPayoload({
             email: input.email ?? loginPayload.email,
             password: input.password ?? loginPayload.password,
-        })
-        if (error) setError(null); // reset
+        });
     }
 
     const submitLogin = async () => {
+        setErrors(undefined); // clear if any cache
         if (authContext?.logIn) {
             const res = await authContext?.logIn(loginPayload);
-            if (!res.success) {
-                setError(res.message);
-            } else {
-                setError(null);
+            if (!res?.success) {
+                setErrors(res?.errors);
+                if (!res?.errors && res?.message)
+                    Toast.show({ type: 'error', position: 'bottom', text1: res?.message });
             }
         }
+
     }
 
     const navToSignUpPage = async () => {
         navigation.navigate('SignUp');
     }
-
-    useEffect(() => {
-        if ((error?.length ?? 0) > 0 && error) {
-            Toast.show({ type: 'error', position: 'bottom', text1: error });
-            updatePayload({ password: '' });
-        }
-    }, [error]);
 
     return (
         <ImageBackground
