@@ -2,7 +2,7 @@
 A simple app demonstrating a credit transfer module with biometric authentication.
 <br/>
 
-> ⚠️ **Note:** The `.env` file is not included in this repo. Please email me to get a copy.
+> ⚠️ **Note:** The `.env` file is not included in this repo. Please email me `qarnayn.khairuddin@gmail.com` to get a copy.
 <br/>
 
 ### ✅ TODO Features
